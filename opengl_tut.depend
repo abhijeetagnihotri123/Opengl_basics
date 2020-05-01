@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1577538113 source:/home/agnitude5/Desktop/opengl_tut/main.cpp
+	<iostream>
+	<GL/glew.h>
+	"display.h"
+	"shader.h"
+	"Mesh.h"
+	<math.h>
+
+1577259050 source:/home/agnitude5/Desktop/opengl_tut/src/display.cpp
+	"display.h"
+	<GL/glew.h>
+	<iostream>
+
+1577258976 /home/agnitude5/Desktop/opengl_tut/include/display.h
+	<SDL2/SDL.h>
+	<string>
+
+1577360399 source:/home/agnitude5/Desktop/opengl_tut/src/shader.cpp
+	"shader.h"
+
+1577360284 /home/agnitude5/Desktop/opengl_tut/include/shader.h
+	<fstream>
+	<shader.h>
+	<GL/glew.h>
+	<string>
+	"Transform.h"
+	"camera.h"
+
+1577274074 source:/home/agnitude5/Desktop/opengl_tut/src/Mesh.cpp
+	"Mesh.h"
+
+1577536096 /home/agnitude5/Desktop/opengl_tut/include/Mesh.h
+	<glm/glm.hpp>
+	<GL/glew.h>
+
+1577287708 source:/home/agnitude5/Desktop/opengl_tut/src/Texture.cpp
+	"Texture.h"
+	"std_image.h"
+
+1577279833 /home/agnitude5/Desktop/opengl_tut/include/Texture.h
+	<string>
+	<GL/glew.h>
+
+1577288555 /home/agnitude5/Desktop/opengl_tut/include/std_image.h
+	<stdio.h>
+
+1577296412 source:/home/agnitude5/Desktop/opengl_tut/src/Transform.cpp
+
+1577352104 /home/agnitude5/Desktop/opengl_tut/include/Transform.h
+	<glm/glm.hpp>
+	<glm/gtx/transform.hpp>
+
+1577359759 /home/agnitude5/Desktop/opengl_tut/include/camera.h
+	<glm/glm.hpp>
+	<glm/gtx/transform.hpp>
+
