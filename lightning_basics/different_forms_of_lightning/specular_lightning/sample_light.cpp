@@ -17,7 +17,6 @@ const unsigned int SCR_HEIGHT = 600;
 vec3 objectColor(1.0f,0.5f,0.31f);
 vec3 lightColor(1.0f,1.0f,1.0f);
 vec3 lightPos(1.2f,1.0f,2.0f);
-vec3 cameraPos(0.0f,0.0f,0.0f);
 int main(int argc,char *argv[])
 {   
     string shader_file1 = argv[1];
@@ -128,47 +127,47 @@ int main(int argc,char *argv[])
         return -1;
     }
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
 
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f, 
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f, 
 
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, 
 
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
 
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f, -0.5f, 
 
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+        -0.5f,  0.5f, -0.5f, 
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
     };
     GLuint VAO,VBO,lightCube;
     glGenVertexArrays(1,&VAO);
@@ -176,25 +175,23 @@ int main(int argc,char *argv[])
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
-    glEnableVertexAttribArray(1);
     glGenVertexArrays(1,&lightCube);
     glBindVertexArray(lightCube);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
     do
     {
-        glClearColor(0.1f,0.1f,0.1f,1.0f);
+        glClearColor(0.2f,0.3f,0.3f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader_program1);
         glBindVertexArray(VAO);
         mat4 model = mat4(1.0f);
         mat4 view = mat4(1.0f);
         mat4 projection = mat4(1.0f);
-        lightColor.x = sin(glfwGetTime())/2+1.0;
+        lightColor.x = sin(glfwGetTime())/2+0.5;
         lightColor.y = cos(glfwGetTime())/2+0.5;
         lightColor.z = lightColor.x * lightColor.y;
         GLuint modelloc = glGetUniformLocation(shader_program1,"model");
