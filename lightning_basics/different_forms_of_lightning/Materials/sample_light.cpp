@@ -17,10 +17,9 @@ const unsigned int SCR_HEIGHT = 600;
 vec3 cameraPos(0.0f,0.0f,3.0f);
 vec3 cameraFront(0.0f,0.0f,-1.0f);
 vec3 cameraUp(0.0f,1.0f,0.0f);
-vec3 objectColor(1.0f,0.5f,0.31f);
-vec3 lightColor(1.0f,1.0f,1.0f);
 vec3 lightPos(1.2f,1.0f,2.0f);
-
+vec3 SL(1.0f);
+vec3 objectColor(1.0f,0.5f,0.31f);
 bool firstMouse = true;
 float Yaw   = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 float Pitch =  0.0f;
@@ -103,7 +102,7 @@ int main(int argc,char *argv[])
     {   
         glGetShaderInfoLog(FS,512,NULL,infolog);
         cout<<"Fragment Shader compilation failed1:"<<infolog<<endl;
-        return -1;
+        //return -1;
     }
     GLuint shader_program1 = glCreateProgram();
     GLuint shader_program2 = glCreateProgram();
@@ -114,7 +113,7 @@ int main(int argc,char *argv[])
     if(!success)
     {
         cout<<"Program linking failed1\n";
-        return -1;
+        //return -1;
     }
     GLuint VS1,FS1;
     VS1=glCreateShader(GL_VERTEX_SHADER);
@@ -147,47 +146,47 @@ int main(int argc,char *argv[])
         return -1;
     }
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f, 
-         0.5f, -0.5f, -0.5f,  
-         0.5f,  0.5f, -0.5f,  
-         0.5f,  0.5f, -0.5f,  
-        -0.5f,  0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-        -0.5f, -0.5f,  0.5f, 
-         0.5f, -0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
-        -0.5f, -0.5f,  0.5f, 
-        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f, -0.5f,  
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-        -0.5f, -0.5f, -0.5f, 
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f,  0.5f,  
-         0.5f, -0.5f,  0.5f,  
-        -0.5f, -0.5f,  0.5f, 
-        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-        -0.5f,  0.5f, -0.5f, 
-         0.5f,  0.5f, -0.5f,  
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f, -0.5f, 
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
     };
     GLuint VAO,VBO,lightCube;
     glGenVertexArrays(1,&VAO);
@@ -195,16 +194,16 @@ int main(int argc,char *argv[])
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glGenVertexArrays(1,&lightCube);
     glBindVertexArray(lightCube);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),(void*)0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE, 6 * sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
     do
     {
-        glClearColor(0.2f,0.3f,0.3f,1.0f);
+        glClearColor(0.1f,0.1f,0.1f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader_program1);
         glBindVertexArray(VAO);
@@ -220,23 +219,50 @@ int main(int argc,char *argv[])
         mat4 model = mat4(1.0f);
         mat4 view = mat4(1.0f);
         mat4 projection = mat4(1.0f);
-        lightColor.x = sin(glfwGetTime())/2+0.75;
-        lightColor.y = cos(glfwGetTime())/2+0.75;
-        lightColor.z = lightColor.x * lightColor.y;
+        glm::vec3 lightColor;
+        lightColor.x = sin(glfwGetTime() * 2.0f);
+        lightColor.y = cos(glfwGetTime() * 0.7f);
+        lightColor.z = lightColor.x * lightColor.y;//(glfwGetTime() * 1.3f);
+        glm::vec3 diffuseColor = lightColor * vec3(0.5f);
+        glm::vec3 ambientColor = diffuseColor;// * vec3(0.2f);
+        glm::vec3 SPC = vec3(1.0f);
+        glm::vec3 MA = vec3(1.0f,0.5f,0.31f);
+        glm::vec3 MD = vec3(1.0f,0.5f,0.31f);
+        glm::vec3 MS = vec3(0.5f);
+        GLfloat shininess = 32.0f;
         GLuint modelloc = glGetUniformLocation(shader_program1,"model");
         GLuint viewLoc = glGetUniformLocation(shader_program1,"view");
         GLuint projLoc = glGetUniformLocation(shader_program1,"projection");
-        GLuint objcolor_loc = glGetUniformLocation(shader_program1,"objectColor");
-        GLuint lightcolor_loc = glGetUniformLocation(shader_program1,"lightColor");
+        GLuint lightColor_pos = glGetUniformLocation(shader_program1,"lightColor");
+        GLuint objectColor_loc = glGetUniformLocation(shader_program1,"objectColor");
+        GLuint AC_LOC = glGetUniformLocation(shader_program1,"ambient_cube");
+        GLuint DC_loc = glGetUniformLocation(shader_program1,"diffuse_cube");
+        GLuint SC_loc = glGetUniformLocation(shader_program1,"specular_cube");
+        GLuint SHINE_LOC = glGetUniformLocation(shader_program1,"shininess");
+        GLuint POS_LIGHT_LOC = glGetUniformLocation(shader_program1,"position_light");
+        GLuint AM_LIGHT_LOC = glGetUniformLocation(shader_program1,"ambient_light");
+        GLuint DL_LOC = glGetUniformLocation(shader_program1,"diffuse_light");
+        GLuint SL_LOC = glGetUniformLocation(shader_program1,"specular_light");
+        GLuint viewPos_loc = glGetUniformLocation(shader_program1,"viewPos");
         model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        //view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
         glUniformMatrix4fv(viewLoc,1,GL_FALSE,value_ptr(view));
         glUniformMatrix4fv(projLoc,1,GL_FALSE,value_ptr(projection));
-        glUniform3fv(objcolor_loc,1,value_ptr(objectColor));
-        glUniform3fv(lightcolor_loc,1,value_ptr(lightColor));
+        glUniform3fv(lightColor_pos,1,value_ptr(lightColor));
+        glUniform3fv(DL_LOC,1,value_ptr(diffuseColor));
+        glUniform3fv(AM_LIGHT_LOC,1,value_ptr(ambientColor));
+        glUniform3fv(objectColor_loc,1,value_ptr(objectColor));
+        glUniform3fv(viewPos_loc,1,value_ptr(cameraPos));
+        glUniform3fv(AC_LOC,1,value_ptr(MA));
+        glUniform3fv(DC_loc,1,value_ptr(MD));
+        glUniform3fv(SC_loc,1,value_ptr(MS));
+        glUniform3fv(POS_LIGHT_LOC,1,value_ptr(lightPos));
+        glUniform3fv(viewPos_loc,1,value_ptr(cameraPos));
+        glUniform3fv(SL_LOC,1,value_ptr(SL));
+        glUniform1f(SHINE_LOC,shininess);
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES,0,36);
         glUseProgram(shader_program2);
