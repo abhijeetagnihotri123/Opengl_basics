@@ -26,5 +26,4 @@ void main()
     float spec = pow(max(dot(viewPos,reflectDir),0),shininess);
     vec3 SPC = SPECULAR * spec * texture(specular,TexCoord).rgb;
     FragColor = vec4((Ambient + DIFF + SPC),1.0);
-    // FragColor = vec4(texture(specular,TexCoord).rgb,1.0);
 }
