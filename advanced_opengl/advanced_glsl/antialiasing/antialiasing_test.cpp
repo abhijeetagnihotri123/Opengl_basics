@@ -14,9 +14,7 @@ using namespace glm;
 string load_shader(string&);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-vec3 objectColor(1.0f,0.5f,0.31f);
-vec3 lightColor(1.0f,1.0f,1.0f);
-vec3 lightPos(1.2f,1.0f,2.0f);
+
 int main(int argc,char *argv[])
 {   
     string shader_file1 = argv[1];
@@ -88,6 +86,8 @@ int main(int argc,char *argv[])
         cout<<"Program linking failed1\n";
         return -1;
     }
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_MULTISAMPLE);
     float vertices[] = {
         -0.5f, -0.5f, -0.5f, 
          0.5f, -0.5f, -0.5f,  
@@ -153,22 +153,15 @@ int main(int argc,char *argv[])
         mat4 model = mat4(1.0f);
         mat4 view = mat4(1.0f);
         mat4 projection = mat4(1.0f);
-        lightColor.x = sin(glfwGetTime())/2+0.5;
-        lightColor.y = cos(glfwGetTime())/2+0.5;
-        lightColor.z = lightColor.x * lightColor.y;
         GLuint modelloc = glGetUniformLocation(shader_program1,"model");
         GLuint viewLoc = glGetUniformLocation(shader_program1,"view");
         GLuint projLoc = glGetUniformLocation(shader_program1,"projection");
-        GLuint objcolor_loc = glGetUniformLocation(shader_program1,"objectColor");
-        GLuint lightcolor_loc = glGetUniformLocation(shader_program1,"lightColor");
         model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
         glUniformMatrix4fv(viewLoc,1,GL_FALSE,value_ptr(view));
         glUniformMatrix4fv(projLoc,1,GL_FALSE,value_ptr(projection));
-        glUniform3fv(objcolor_loc,1,value_ptr(objectColor));
-        glUniform3fv(lightcolor_loc,1,value_ptr(lightColor));
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES,0,36);
         glfwSwapBuffers(window);
