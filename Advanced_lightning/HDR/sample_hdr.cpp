@@ -32,12 +32,12 @@ float exposure = 1.0f;
 void framebuffer_size_callback(GLFWwindow*,int,int);
 void mouse_callback(GLFWwindow*,double,double);
 void scroll_callback(GLFWwindow*,double,double);
-void processWindow(GLFWwindow*);
+void processInput(GLFWwindow*);
 void renderCube(void);
 void renderQuad(void);
 GLuint loadTexture(char const *, bool);
 GLuint create_program(char const*,char const*);
-int main()
+int main(int argc,char *argv[])
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -77,7 +77,8 @@ int main()
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
 
-    GLuint woodTexture = loadTexture(FileSystem::getPath("wood.png").c_str(), true); // note that we're loading the texture as an SRGB texture
+    const char *path = "wood.png";
+    GLuint woodTexture = loadTexture(path, true); // note that we're loading the texture as an SRGB texture
 
     // configure floating point framebuffer
     // ------------------------------------
@@ -125,31 +126,52 @@ int main()
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)SCR_WIDTH / (GLfloat)SCR_HEIGHT, 0.1f, 100.0f);
             glm::mat4 view = glm::lookAt(cameraPos,cameraFront+cameraPos,cameraUp);
-            glUseProgram(shader);
-            shader.setMat4("projection", projection);
-            shader.setMat4("view", view);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 25.0));
+            model = glm::scale(model, glm::vec3(2.5f, 2.5f, 27.5f));
+            glUseProgram(shader_program);
+            //shader.setMat4("projection", projection);
+            //shader.setMat4("view", view);
+            GLuint projLoc = glGetUniformLocation(shader_program,"projection");
+            GLuint viewLoc = glGetUniformLocation(shader_program,"view");
+            GLuint modelloc = glGetUniformLocation(shader_program,"model");
+            GLuint viewPos = glGetUniformLocation(shader_program,"viewPos");
+            glUniformMatrix4fv(projLoc,1,GL_FALSE,value_ptr(projection));
+            glUniformMatrix4fv(viewLoc,1,GL_FALSE,value_ptr(view));
+            glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
+            glUniform3fv(viewPos,1,value_ptr(cameraPos));
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, woodTexture);
             for (unsigned int i = 0; i < lightPositions.size(); i++)
             {
-                shader.setVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
-                shader.setVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
+                //shader.setVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
+                //shader.setVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
+                string s = to_string(i);
+                string s1 = "position["+s1+"]";
+                string s2 = "Color["+s1+"]";
+                const char *s1_source = s1.c_str();
+                const char *s2_source = s2.c_str();
+                GLuint lightpos = glGetUniformLocation(shader_program,s1_source);
+                GLuint colorPos = glGetUniformLocation(shader_program,s2_source);
+                glUniform3fv(lightpos,1,value_ptr(lightPositions[0]));
+                glUniform3fv(colorPos,1,value_ptr(lightColors[0]));
             }
-            shader.setVec3("viewPos", camera.Position);
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 25.0));
-            model = glm::scale(model, glm::vec3(2.5f, 2.5f, 27.5f));
-            shader.setMat4("model", model);
-            shader.setInt("inverse_normals", true);
+            bool val = true;
+            //shader.setInt("inverse_normals", true);
+            GLuint IN = glGetUniformLocation(shader_program,"inverse_normals");
+            glUniform1f(IN,val);
             renderCube();
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        hdrShader.use();
+        glUseProgram(hdr_shader);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, colorBuffer);
-        hdrShader.setInt("hdr", hdr);
-        hdrShader.setFloat("exposure", exposure);
+        //hdrShader.setInt("hdr", hdr);
+        //hdrShader.setFloat("exposure", exposure);
+        GLuint hdr_loc = glGetUniformLocation(hdr_shader,"hdr");
+        GLuint exp_loc = glGetUniformLocation(hdr_shader,"exposure");
+        glUniform1i(hdr_loc,hdr);
+        glUniform1f(exp_loc,exposure);
         renderQuad();
 
         glfwSwapBuffers(window);
@@ -180,7 +202,7 @@ string load_shader(string &filename)
     file.close();
     return output;
 }
-void processWindow(GLFWwindow *window)
+void processInput(GLFWwindow *window)
 {
     float cameraSpeed = 2.5 * 0.1;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -402,7 +424,7 @@ GLuint create_program(const char *shader1,const char *shader2)
     char infolog[512];
     VS = glCreateShader(GL_VERTEX_SHADER);
     FS = glCreateShader(GL_FRAGMENT_SHADER);
-    program = glCreateProgram(GL_PROGRAM);
+    program = glCreateProgram();
     glShaderSource(VS,1,&shader1,NULL);
     glShaderSource(FS,1,&shader2,NULL);
     glCompileShader(VS);
